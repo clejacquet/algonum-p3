@@ -1,7 +1,9 @@
 import numpy as np
 import copy
 
-def QR_facto(A):
+NMax = 1024
+
+def Decomp_Bidiag(A):
     n = np.shape(A)[0]
     m = np.shape(A)[1]
     Qleft = np.eye(n)
@@ -22,3 +24,33 @@ def QR_facto(A):
         print(B_Diag)
 
     return (Qleft, B_Diag, Qright)
+
+
+def SVD(A):
+    n = np.shape(A)[0]
+    U = np.eye(n)
+    V = np.eye(n)
+    S = Decomp_Bidiag(A)
+    BD = Decomp_Bidiag(A)
+
+    for i in range(0,NMax):
+        (Q1, R1) = np.linalg.qr(np.transpose(S))
+        (Q2, R2) = np.linalg.qr(np.transpose(R1))
+        S = R2
+        U = np.dot(U, Q2)
+        V = np.dot(np.transpose(Q1), V)
+
+        assert(np.dot(U, np.dot(S, V)) == BD)
+
+    return (U, S, V)
+
+def est_diag(A):
+    n = np.shape(A)[0]
+    m = np.shape(A)[1]
+    for i in range(0,n):
+        for j in range(0,m):
+            if (i!=j && A[i][j]!=0):
+                return False
+    return True
+
+
