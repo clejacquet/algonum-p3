@@ -7,12 +7,16 @@ NMax = 1024
 
 def const_vect(sens, i, n, m, B_Diag):
     if (sens == 'v'):
-        vect = B_Diag[i:n][i]
-        vect_arriv = np.zeros(n-i+1)
+        vect = np.zeros((n-i,1))
+        for j in range(i,n):
+            vect[j][0] = B_Diag[j][i]
+        vect_arriv = np.zeros((n-i,1))
         vect_arriv[0] = np.linalg.norm(vect)
     else:
-        vect = B_Diag[i][(i+1):m]
-        vect_arriv = np.zeros(m-i)
+        vect = np.zeros((m-i-1,1))
+        for k in range(i+1,m):
+            vect[k][0] = B_Diag[i+1][k]
+        vect_arriv = np.zeros((m-i-1,1))
         vect_arriv[0] = np.linalg.norm(vect)
     return (vect, vect_arriv)
 
@@ -26,15 +30,15 @@ def Decomp_Bidiag(A):
     for i in range(n):
         vect1 = const_vect('v',i,n,m,B_Diag)[0]
         vect_arriv1 = const_vect('v',i,n,m,B_Diag)[1]
-        print(vect1)
-        print(vect_arriv1)
-        Q1 = HH.Householder(np.transpose(vect1), np.transpose(vect_arriv1))
-        #print(Q1)
-        Qleft = np.dot(Qleft,np.transpose(Q1))
+        Q1 = HH.Householder(vect1, vect_arriv1)
+        Qleft = np.dot(Qleft,Q1)
         B_Diag = np.dot(Q1, B_Diag)
 
-        if (i != m-2):
-            vect2, vect_arriv2 = const_vect('h',i,n,m,B_Diag)
+        if (i < m-2):
+            vect2 = const_vect('h',i,n,m,B_Diag)[0]
+            vect_arriv2 = const_vect('h',i,n,m,B_Diag)[1]
+            print(vect2)
+            print(vect_arriv2)
             Q2 = HH.Householder(vect2,vect_arriv2)
             Qright = np.dot(Q2, Qright)
             B_Diag = np.dot(B_Diag, Q2)
@@ -43,10 +47,12 @@ def Decomp_Bidiag(A):
     print(B_Diag)
     return(Qleft, B_Diag, Qright)
 
-A = np.array([[1,2,3,4],[7,3,9,2],[3,0,4,5]])
-print(A)
-print("Decomp_Bidiag:")
-#print(Decomp_Bidiag(A))
+A = np.array([[1,2,3,4],
+              [7,3,9,2],
+              [3,0,4,5]])
+#print(A)
+#print("Decomp_Bidiag:")
+print(Decomp_Bidiag(A))
 
 def SVD(A):
     n = np.shape(A)[0]
