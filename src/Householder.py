@@ -1,4 +1,6 @@
 import numpy as np
+
+
 X = np.array(([3],
              [4],
              [0]))
@@ -27,11 +29,12 @@ print(np.dot(np.array(([1],
 print(U,transpose_colomn(U),"le produit",np.dot(U,transpose_colomn(U)))
 '''
 
-def Householder(X,Y):
-    n=len(X)
-    U = (X-Y)/np.linalg.norm(X-Y)
-    H = np.eye(n,n) -2*np.dot(U,U.transpose())
-    print(H)
+
+def householder(vec_x, vec_y):
+    n = len(vec_x)
+    mat_u = (vec_x - vec_y) / np.linalg.norm(vec_x - vec_y)
+    mat_h = np.eye(n, n) - 2 * np.dot(mat_u, mat_u.transpose())
+    return mat_h
 
 
-Householder(X,Y)
+householder(X, Y)
