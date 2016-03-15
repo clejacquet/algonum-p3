@@ -24,9 +24,13 @@ def Decomp_Bidiag(A):
     B_Diag = copy.copy(A)
 
     for i in range(n):
-        vect1, vect_arriv1 = const_vect('v',i,n,m,B_Diag)
-        Q1 = HH.Householder(vect1, vect_arriv1)
-        Qleft = np.dot(Qleft, Q1)
+        vect1 = const_vect('v',i,n,m,B_Diag)[0]
+        vect_arriv1 = const_vect('v',i,n,m,B_Diag)[1]
+        print(vect1)
+        print(vect_arriv1)
+        Q1 = HH.Householder(np.transpose(vect1), np.transpose(vect_arriv1))
+        #print(Q1)
+        Qleft = np.dot(Qleft,np.transpose(Q1))
         B_Diag = np.dot(Q1, B_Diag)
 
         if (i != m-2):
@@ -36,14 +40,13 @@ def Decomp_Bidiag(A):
             B_Diag = np.dot(B_Diag, Q2)
 
         assert(np.dot(Qleft, np.dot(B_Diag, Qright)) == A)
-        print(B_Diag)
-
-    return (Qleft, B_Diag, Qright)
+    print(B_Diag)
+    return(Qleft, B_Diag, Qright)
 
 A = np.array([[1,2,3,4],[7,3,9,2],[3,0,4,5]])
 print(A)
 print("Decomp_Bidiag:")
-print(Decomp_Bidiag(A)[1])
+#print(Decomp_Bidiag(A))
 
 def SVD(A):
     n = np.shape(A)[0]
