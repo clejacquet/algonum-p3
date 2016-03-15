@@ -9,16 +9,26 @@ def const_vect(sens, i, n, m, B_Diag):
     if (sens == 'v'):
         vect = np.zeros((n-i,1))
         for j in range(i,n):
-            vect[j][0] = B_Diag[j][i]
+            vect[j-i][0] = B_Diag[j][i]
         vect_arriv = np.zeros((n-i,1))
-        vect_arriv[0] = np.linalg.norm(vect)
+        vect_arriv[0][0] = np.linalg.norm(vect)
     else:
         vect = np.zeros((m-i-1,1))
         for k in range(i+1,m):
-            vect[k][0] = B_Diag[i+1][k]
+            vect[k-i-1][0] = B_Diag[i+1][k]
         vect_arriv = np.zeros((m-i-1,1))
-        vect_arriv[0] = np.linalg.norm(vect)
+        vect_arriv[0][0] = np.linalg.norm(vect)
     return (vect, vect_arriv)
+
+def resize(A,n):
+    if (np.shape(A)[0] >= n):
+        return A
+    else:
+        ret = np.eye(n)
+        for i in range(np.shape(A)[0]):
+            for j in range(np.shape(A)[0]):
+                ret[i][j] = A[i][j]
+    return ret
 
 def Decomp_Bidiag(A):
     n = np.shape(A)[0]
@@ -31,20 +41,19 @@ def Decomp_Bidiag(A):
         vect1 = const_vect('v',i,n,m,B_Diag)[0]
         vect_arriv1 = const_vect('v',i,n,m,B_Diag)[1]
         Q1 = HH.Householder(vect1, vect_arriv1)
+        Q1 = resize(Q1,n)
         Qleft = np.dot(Qleft,Q1)
         B_Diag = np.dot(Q1, B_Diag)
 
         if (i < m-2):
             vect2 = const_vect('h',i,n,m,B_Diag)[0]
             vect_arriv2 = const_vect('h',i,n,m,B_Diag)[1]
-            print(vect2)
-            print(vect_arriv2)
             Q2 = HH.Householder(vect2,vect_arriv2)
+            Q2 = resize(Q2,m)
             Qright = np.dot(Q2, Qright)
             B_Diag = np.dot(B_Diag, Q2)
 
-        assert(np.dot(Qleft, np.dot(B_Diag, Qright)) == A)
-    print(B_Diag)
+        #assert(np.array_equal(np.dot(Qleft, np.dot(B_Diag, Qright)),A))
     return(Qleft, B_Diag, Qright)
 
 A = np.array([[1,2,3,4],
@@ -52,7 +61,7 @@ A = np.array([[1,2,3,4],
               [3,0,4,5]])
 #print(A)
 #print("Decomp_Bidiag:")
-print(Decomp_Bidiag(A))
+print(Decomp_Bidiag(A)[1])
 
 def SVD(A):
     n = np.shape(A)[0]
