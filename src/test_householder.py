@@ -3,13 +3,6 @@ import numpy as np
 import householder as hh
 
 
-'''
-H = np.array([[0.64,-0.48,0.6]
-            ,[-0.48,0.36,0.8]
-            ,[0.6,0.8,0]])
-'''
-
-
 X = np.array(([3],
               [4],
               [0]))
