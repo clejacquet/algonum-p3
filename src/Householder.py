@@ -29,9 +29,11 @@ print(U,transpose_colomn(U),"le produit",np.dot(U,transpose_colomn(U)))
 
 def Householder(X,Y):
     n=len(X)
+    if (np.array_equal(X, Y)):
+        return np.eye(n)
     U = (X-Y)/np.linalg.norm(X-Y)
     H = np.eye(n,n) -2*np.dot(U,U.transpose())
-    print(H)
+    return(H)
 
-
+#Householder(np.array(([1],[7],[3])), np.array(([7.68114575],[0],[0])))
 Householder(X,Y)
