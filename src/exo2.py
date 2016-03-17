@@ -1,68 +1,60 @@
 import numpy as np
-import copy
-
 import householder as HH
 
 NMax = 1024
 
 
-def const_vect(sens, i, n, m, B_Diag):
-    if (sens == 'v'):
-        vect = np.zeros((n-i,1))
-        for j in range(i,n):
-            vect[j-i][0] = B_Diag[j][i]
-        vect_arriv = np.zeros((n-i,1))
-        vect_arriv[0][0] = np.linalg.norm(vect)
-    else:
-        vect = np.zeros((m-i-1,1))
-        for k in range(i+1,m):
-            vect[k-i-1][0] = B_Diag[i+1][k]
-        vect_arriv = np.zeros((m-i-1,1))
-        vect_arriv[0][0] = np.linalg.norm(vect)
-    return (vect, vect_arriv)
+def extract_column(a, n, i):
+    return np.transpose([a[i:n, i]])
 
 
-def resize(A,n):
-    t = np.shape(A)[0]
-    if (t >= n):
-        return A
-    else:
-        ret = np.eye(n)
-        for i in range(t):
-            for j in range(t):
-                ret[n-t+i][n-t+j] = A[i][j]
-    return ret
+def extract_line(a, m, i):
+    return np.transpose([a[i, (i+1):m]])
 
 
-def Decomp_Bidiag(A):
-    n = np.shape(A)[0]
-    m = np.shape(A)[1]
+def singlify_vector(v):
+    new_v = np.zeros(np.shape(v))
+    new_v[0, 0] = np.linalg.norm(v)
+    return new_v
 
-    Qleft = np.eye(n)
-    Qright = np.eye(m)
-    B_Diag = copy.copy(A)
 
-    for i in range(0, n-1):
-        vect1 = const_vect('v',i,n,m,B_Diag)[0]
-        vect_arriv1 = const_vect('v',i,n,m,B_Diag)[1]
-        Q1 = HH.householder(vect1, vect_arriv1)
-        Q1 = resize(Q1,n)
-        Qleft = np.dot(Qleft,Q1)
-        B_Diag = np.dot(Q1, B_Diag)
+def construct_householder(x):
+    y = singlify_vector(x)
+    return HH.householder(x, y)
 
-        if (i < m-2):
-            vect2 = const_vect('h',i,n,m,B_Diag)[0]
-            vect_arriv2 = const_vect('h',i,n,m,B_Diag)[1]
-            Q2 = HH.householder(vect2,vect_arriv2)
-            Q2 = resize(Q2, m)
-            Qright = np.dot(Q2, Qright)
-            B_Diag = np.dot(B_Diag, Q2)
 
-        np.testing.assert_array_almost_equal(np.dot(Qleft, np.dot(B_Diag, Qright)), A)
-        print np.dot(Qleft, np.dot(B_Diag, Qright))
-        print A
+def resize(mat, n):
+    n0 = np.shape(mat)[0]
+    if n0 == n:
+        return mat
 
-    return Qleft, B_Diag, Qright
+    new_mat = np.eye(n)
+    for i in range(0, n0):
+        for j in range(0, n0):
+            new_mat[(n - n0) + i, (n - n0) + j] = mat[i, j]
+    return new_mat
+
+
+def decomp(a):
+    n, m = np.shape(a)
+    left = np.eye(n)
+    right = np.eye(m)
+
+    bd = a
+
+    for i in range(0, min(n, m)):
+        q1 = resize(construct_householder(extract_column(bd, n, i)), n)
+        left = np.dot(left, q1)
+        bd = np.dot(q1, bd)
+
+        if i <= m - 2:
+            q2 = resize(construct_householder(extract_line(bd, m, i)), m)
+            right = np.dot(q2, right)
+            bd = np.dot(bd, q2)
+
+        np.testing.assert_array_almost_equal(np.dot(np.dot(left, bd), right), a)
+
+    return left, bd, right
 
 
 A = np.array([[1,2,3,4],
@@ -70,7 +62,7 @@ A = np.array([[1,2,3,4],
               [3,0,4,5]])
 print(A)
 print("Decomp_Bidiag:")
-print(Decomp_Bidiag(A)[1])
+print(np.round(decomp(A)[1]), 3)
 print("\n")
 
 
@@ -79,8 +71,8 @@ def SVD(A):
     m = np.shape(A)[1]
     U = np.eye(n)
     V = np.eye(m)
-    S = Decomp_Bidiag(A)[1]
-    BD = Decomp_Bidiag(A)[1]
+    S = decomp(A)[1]
+    BD = decomp(A)[1]
 
     for i in range(0,NMax):
         Q1, R1 = np.linalg.qr(np.transpose(S))
