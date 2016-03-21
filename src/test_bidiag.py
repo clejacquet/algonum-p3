@@ -3,9 +3,9 @@ import numpy as np
 import exo2 as bd
 
 
-A = np.array([[1,2,3,4],
-     [7,3,9,2],
-     [3,0,4,5]])
+A = np.array([[1, 2, 3, 4],
+              [7, 3, 9, 2],
+              [3, 0, 4, 5]])
 
 B = np.array([[1, 1, 0, 0],
               [0, 1, 1, 0],

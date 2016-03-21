@@ -1,7 +1,10 @@
+# coding=utf8
+
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 import numpy as np
 import exo2 as ex2
+
 
 # decomposition_couleurs prend une matrice de triplets RGB et la décompose en 3 matrices avec les valeurs correspondant aux 3 couleurs
 def decomposition_couleurs(a):
@@ -70,17 +73,17 @@ def comp_test(k):
     plt.show()
     return True
 
-# comp_test(50)
+comp_test(50)
 
-# test = np.array([[[0.1, 0.1, 0.1], [0.1, 0.1, 0.1], [0.1, 0.1, 0.1]],
-#                  [[0.2, 0.2, 0.2], [0.2, 0.2, 0.2], [0.2, 0.2, 0.2]],
-#                  [[0.3, 0.3, 0.3], [0.3, 0.3, 0.3], [0.3, 0.3, 0.3]],
-#                  [[0.4, 0.4, 0.4], [0.4, 0.4, 0.4], [0.4, 0.4, 0.4]]])
+test = np.array([[[0.1, 0.1, 0.1], [0.1, 0.1, 0.1], [0.1, 0.1, 0.1]],
+                 [[0.2, 0.2, 0.2], [0.2, 0.2, 0.2], [0.2, 0.2, 0.2]],
+                 [[0.3, 0.3, 0.3], [0.3, 0.3, 0.3], [0.3, 0.3, 0.3]],
+                 [[0.4, 0.4, 0.4], [0.4, 0.4, 0.4], [0.4, 0.4, 0.4]]])
 
-# print("compression:")
-# print(compression(test, 2))
-# plt.subplot(1, 2, 1)
-# plt.imshow(test)
-# plt.subplot(1, 2, 2)
-# plt.imshow(compression(test, 2))
-# plt.show()
+print("compression:")
+print(compression(test, 2))
+plt.subplot(1, 2, 1)
+plt.imshow(test)
+plt.subplot(1, 2, 2)
+plt.imshow(compression(test, 2))
+plt.show()

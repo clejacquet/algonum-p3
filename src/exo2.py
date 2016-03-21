@@ -57,13 +57,13 @@ def decomp(a):
     return left, bd, right
 
 
-A = np.array([[1,2,3,4],
-              [7,3,9,2],
-              [3,0,4,5]])
-print(A)
-print("Decomp_Bidiag:")
-print(np.round(decomp(A)[1]), 3)
-print("\n")
+# A = np.array([[1,2,3,4],
+#               [7,3,9,2],
+#               [3,0,4,5]])
+# print(A)
+# print("Decomp_Bidiag:")
+# print(np.round(decomp(A)[1]), 3)
+# print("\n")
 
 
 def SVD(A):
@@ -81,7 +81,7 @@ def SVD(A):
         U = np.dot(U, Q2)
         V = np.dot(np.transpose(Q1), V)
 
-        #assert(np.array_equal(np.dot(U, np.dot(S, V)),BD))
+        np.testing.assert_array_almost_equal(np.dot(U, np.dot(S, V)), BD)
 
     return U, S, V
 
@@ -95,5 +95,5 @@ def est_diag(A):
                 return False
     return True
 
-print(SVD(A)[1])
+# print(SVD(A)[1])
 
