@@ -57,6 +57,27 @@ def decomp(a):
     return left, bd, right
 
 
+# def decomp2(a):
+#     n, m = np.shape(a)
+#     left = np.eye(n)
+#     right = np.eye(m)
+#
+#     bd = a
+#
+#     for i in range(0, min(n, m)):
+#         q1 = resize(construct_householder(extract_column(bd, n, i)), n)
+#         left = np.dot(left, q1)
+#         bd = np.dot(q1, bd)
+#
+#         if i <= m - 2:
+#             q2 = resize(construct_householder(extract_line(bd, m, i)), m)
+#             right = np.dot(q2, right)
+#             bd = np.dot(bd, q2)
+#
+#         # np.testing.assert_array_almost_equal(np.dot(np.dot(left, bd), right), a)
+#
+#     return left, bd, right
+
 # A = np.array([[1,2,3,4],
 #               [7,3,9,2],
 #               [3,0,4,5]])
