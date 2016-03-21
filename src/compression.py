@@ -35,8 +35,8 @@ def reconstruction_couleurs(r, g, b):
 
 
 # compression_couleur prend une matrice a correspondant à une seule couleur et un entier k et compresse cette couleur à l'ordre k
-def compression_couleur2(a, k):
-    l, bd, r = ex2.decomp(a)
+def compression_couleur(a, k):
+    l, bd, r = ex2.decomp_opti(a)
     u, s, v = ex2.SVD(bd)
 
     n, m = np.shape(a)
@@ -54,7 +54,7 @@ def compression_couleur2(a, k):
     return res
 
 
-def compression_couleur(a, k):
+def compression_couleur2(a, k):
     u, s, v = np.linalg.svd(a)
     n, m = np.shape(a)
     for i in range(k + 1, min(n, m)):

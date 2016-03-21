@@ -29,8 +29,13 @@ def is_bidiag(mat):
 
 class TestDecompBidiag(test.TestCase):
 
-    def test_decomp_bidiag(self):
-        left, a, right = bd.decomp(A)
+    def test_decomp_bidiag_bad(self):
+        left, a, right = bd.decomp_bad(A)
+        self.assertTrue(is_bidiag(a))
+        np.testing.assert_array_almost_equal(np.dot(np.dot(left, a), right), A)
+
+    def test_decomp_bidiag_opti(self):
+        left, a, right = bd.decomp_opti(A)
         self.assertTrue(is_bidiag(a))
         np.testing.assert_array_almost_equal(np.dot(np.dot(left, a), right), A)
 
