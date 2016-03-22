@@ -1,7 +1,10 @@
+# coding=utf8
+
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 import numpy as np
 import exo2 as ex2
+
 
 # decomposition_couleurs prend une matrice de triplets RGB et la décompose en 3 matrices avec les valeurs correspondant aux 3 couleurs
 def decomposition_couleurs(a):
@@ -33,12 +36,40 @@ def reconstruction_couleurs(r, g, b):
 
 # compression_couleur prend une matrice a correspondant à une seule couleur et un entier k et compresse cette couleur à l'ordre k
 def compression_couleur(a, k):
-    u, s, v = ex2.SVD(a)
-    n = min(np.shape(a)[0], np.shape(a)[1])
-    assert(k < n)
-    for i in range(k, n):
-        s[i][i] = 0
-    return np.dot(u, np.dot(s, v))
+    l, bd, r = ex2.decomp_opti(a)
+    u, s, v = ex2.SVD(bd)
+
+    n, m = np.shape(a)
+    for i in range(k + 1, min(n, m)):
+        s[i, i] = 0
+
+    res_interm = np.dot(np.dot(u, s), v)
+    res = np.dot(np.dot(l, res_interm), r)
+
+    for i in range(0, n):
+        for j in range(0, m):
+            if res[i, j] > 1:
+                res[i, j] = 1
+
+    return res
+
+
+def compression_couleur2(a, k):
+    u, s, v = np.linalg.svd(a)
+    n, m = np.shape(a)
+    for i in range(k + 1, min(n, m)):
+        s[i] = 0
+
+    s = np.dot(np.diag(s), np.eye(np.shape(a)[0], np.shape(a)[1]))
+
+    res = np.dot(np.dot(u, s), v)
+
+    for i in range(0, n):
+        for j in range(0, m):
+            if res[i, j] > 1:
+                res[i, j] = 1
+
+    return res
 
 
 # compression effectue la compression à l'orde k de la matrice de triplets a
@@ -60,17 +91,17 @@ def comp_test(k):
     img_full = mpimg.imread("p3_takeoff_base.png")
     img_comp = compression(img_full, k)
     plt.subplot(1, 2, 1)
-    plt.imshow(img_full, interpolation='bilinear')
+    plt.imshow(img_full, interpolation='none')
     plt.title("Image originale")
 
     plt.subplot(1, 2, 2)
-    plt.imshow(img_comp, interpolation='bilinear')
+    plt.imshow(img_comp, interpolation='none')
     plt.title("Compression rang "+str(k))
 
     plt.show()
     return True
 
-# comp_test(50)
+comp_test(5)
 
 # test = np.array([[[0.1, 0.1, 0.1], [0.1, 0.1, 0.1], [0.1, 0.1, 0.1]],
 #                  [[0.2, 0.2, 0.2], [0.2, 0.2, 0.2], [0.2, 0.2, 0.2]],
