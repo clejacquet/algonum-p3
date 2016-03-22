@@ -2,22 +2,37 @@ import numpy as np
 
 
 def householder(vec_x, vec_y):
+    vec_x = np.transpose([vec_x])
+    vec_y = np.transpose([vec_y])
+
+    print vec_x
+    print vec_y
+
     n = len(vec_x)
 
     if np.array_equal(vec_x, vec_y):
         return np.eye(n)
 
     mat_u = (vec_x - vec_y) / np.linalg.norm(vec_x - vec_y)
+    mat_h = np.eye(n, n) - 2 * np.dot(mat_u, mat_u.transpose())
+    return mat_h
 
-    mat_h = np.eye(n, n) - 2 * np.dot(np.array([mat_u]).transpose(), [mat_u])
+
+def householder2(vec_x, vec_y):
+    n = len(vec_x)
+
+    if np.array_equal(vec_x, vec_y):
+        return np.eye(n)
+
+    mat_u = (vec_x - vec_y) / np.linalg.norm(vec_x - vec_y)
+    mat_h = np.eye(n, n) - 2 * np.dot(np.transpose(mat_u), mat_u)
     return mat_h
 
 
 def householder_mul_vect(x, y, v):
-    v = np.transpose([v])
     d = x - y
-    d = [d]
-    return v - 2 * np.dot((np.dot(np.transpose(d), d) / np.linalg.norm(d)**2), v)
+    v_t = np.transpose([v])
+    return (v_t - 2 * np.dot((np.dot(d, np.transpose(d)) / np.linalg.norm(d)**2), v_t))[:, 0]
 
 
 def householder_mul_mat_d(x, y, mat):
@@ -35,21 +50,15 @@ def householder_mul_mat_d(x, y, mat):
 def householder_mul_mat_g(x, y, mat):
     return np.transpose(householder_mul_mat_d(x, y, np.transpose(mat)))
 
-'''
-x = np.array([3, 4, 0])
 
+x = np.array([3, 4, 0])
 y = np.array([0, 0, 5])
 
 h = householder(x, y)
 
-m = np.array([[2, 1, 0],
+v = np.array([[2, 1, 0],
               [0, 2, 1],
               [1, 0, 0]])
 
-v = np.array([1, 2, 0])
-
-print np.dot(h, np.transpose([v]))
-print householder_mul_vect(x, y, v)
-print np.dot(h, m)
-print householder_mul_mat_g(x, y, m)
-'''
+print np.dot(v, h)
+print householder_mul_mat_g(x, y, v)

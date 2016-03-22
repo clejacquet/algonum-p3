@@ -5,16 +5,16 @@ NMax = 1024
 
 
 def extract_column(a, n, i):
-    return np.transpose([a[i:n, i]])
+    return a[i:n, i]
 
 
 def extract_line(a, m, i):
-    return np.transpose([a[i, (i+1):m]])
+    return a[i, (i+1):m]
 
 
 def singlify_vector(v):
     new_v = np.zeros(np.shape(v))
-    new_v[0, 0] = np.linalg.norm(v)
+    new_v[0] = np.linalg.norm(v)
     return new_v
 
 
@@ -36,12 +36,12 @@ def resize_mat(mat, n):
 
 
 def resize_vec(vec, n):
-    n0 = np.shape(vec)[0]
+    n0 = len(vec)
     if n0 == n:
         return vec
-    new_vec = np.zeros((n, 1))
+    new_vec = np.zeros(n)
     for i in range(0, n0):
-        new_vec[(n - n0) + i, 0] = vec[i, 0]
+        new_vec[(n - n0) + i] = vec[i]
     return new_vec
 
 
@@ -96,13 +96,13 @@ def decomp_opti(a):
 
     return left, bd, right
 
-A = np.array([[1,2,3,4],
-              [7,3,9,2],
-              [3,0,4,5]])
-print(A)
-print("Decomp_Bidiag:")
-print(np.round(decomp_opti(A)[1]), 3)
-print("\n")
+# A = np.array([[1,2,3,4],
+#               [7,3,9,2],
+#               [3,0,4,5]])
+# print(A)
+# print("Decomp_Bidiag:")
+# print(np.round(decomp_opti(A)[1]), 3)
+# print("\n")
 
 
 def SVD(A):
@@ -130,7 +130,7 @@ def est_diag(A):
     m = np.shape(A)[1]
     for i in range(0,n):
         for j in range(0,m):
-            if (i!=j and A[i][j]!=0):
+            if i != j and A[i][j] != 0:
                 return False
     return True
 
