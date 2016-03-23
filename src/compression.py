@@ -10,10 +10,10 @@ import imgutils as img
 
 def compression_couleur(a, k):
     """
-    Prend une matrice a correspondant à une seule couleur et un entier k et compresse cette couleur à l'ordre k
-    :param a:
-    :param k:
-    :return:
+    Prend une matrice a correspondant à une seule composante et un entier k et compresse cette couleur à l'ordre k
+    :param a: matrice des valeurs d'une composante de couleur
+    :param k: rang de la compression
+    :return: la matrice a compressée
     """
 
     l, bd, r = db.decomp_opti(a)
@@ -36,10 +36,10 @@ def compression_couleur(a, k):
 
 def compression_couleur_opti(a, k):
     """
-
-    :param a:
-    :param k:
-    :return:
+    Similaire à "compression_couleur", mais utilise les fonctions numpy, plus performantes
+    :param a: matrice des valeurs d'une composante de couleur
+    :param k: rang de la compression
+    :return: la matrice a compressée
     """
 
     u, s, v = np.linalg.svd(a)
@@ -64,10 +64,10 @@ def compression_couleur_opti(a, k):
 # compression
 def compression(a, k):
     """
-    Effectue la compression à l'orde k de la matrice de triplets a
-    :param a:
-    :param k:
-    :return:
+    Effectue la compression au rang k de la matrice de triplets a
+    :param a: matrice représentant une image à compresser
+    :param k: rang de la compression
+    :return: matrice de l'image compressée
     """
 
     r, g, b = img.decomposition_couleurs(a)
@@ -77,11 +77,10 @@ def compression(a, k):
     return img.reconstruction_couleurs(r, g, b)
 
 
-def comp_test(img_filename):
+def compression_test(img_filename):
     """
-
-    :param img_filename:
-    :return:
+    Affiche les différences de compression en changeant k sur une image
+    :param img_filename: nom du fichier de l'image à évaluer
     """
     img_full = mpimg.imread(img_filename)
     img_comp5 = compression(img_full, 5)
@@ -104,5 +103,5 @@ def comp_test(img_filename):
 
 
 if __name__ == '__main__':
-    comp_test("res/p3_takeoff_base.png")
-    comp_test("res/p3_earth_base.png")
+    compression_test("res/p3_takeoff_base.png")
+    compression_test("res/p3_earth_base.png")

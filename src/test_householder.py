@@ -16,7 +16,7 @@ V = np.array([[7],
 
 class TestHouseHolder(test.TestCase):
     """
-    
+
     """
 
     def test_prop(self):

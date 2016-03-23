@@ -6,7 +6,7 @@ import time
 
 def householder(vec_x, vec_y):
     """
-
+    Calcule la matrice de householder
     :param vec_x:
     :param vec_y:
     :return:
