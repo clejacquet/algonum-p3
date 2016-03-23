@@ -57,7 +57,7 @@ def Q(A):
 
 def qr(A):
     """
-    
+
     :param A:
     :return:
     """
