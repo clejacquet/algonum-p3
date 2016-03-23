@@ -1,22 +1,37 @@
+# coding=utf-8
+# coding=utf8
+
 from scipy import *
 import numpy as np
 
-def c(p,q,A): 
-    """cosinus theta""" 
+
+def c(p,q,A):
+    """
+    Fonction auxiliaire de la décomposition QR
+    - cosinus theta -
+    """
+
     if A[p,p]==0 and A[q,p]==0:
         return 1
     else: 
         return A[p,p]/sqrt(A[p,p]*A[p,p]+A[q,p]*A[q,p]) 
  
-def s(p,q,A): 
-    """sinus theta""" 
+
+def s(p,q,A):
+    """
+    Fonction auxiliaire de la décomposition QR
+    - sinus theta -
+    """
     if A[p,p]==0 and A[q,p]==0:
         return 0
     else: 
         return A[q,p]/sqrt(A[p,p]*A[p,p]+A[q,p]*A[q,p]) 
  
-def G(q,p,A): 
-    """Selon l'algo""" 
+
+def G(q,p,A):
+    """
+    Fonction auxiliaire de la décomposition QR
+    """
     G=eye(len(A)) 
     G[p,p]=c(p,q,A) 
     G[p,q]=s(p,q,A) 
@@ -24,11 +39,12 @@ def G(q,p,A):
     G[q,q]= c(p,q,A) 
     return matrix(G) 
 
+
 def Q(A):
     """
-
-    :param A:
-    :return:
+    Calcule le "Q" de la décomposition QR
+    :param A: Matrice à décomposer
+    :return: le "Q" de la décomposition QR
     """
 
     n, m = shape(A)
@@ -41,7 +57,7 @@ def Q(A):
 
 def qr(A):
     """
-
+    
     :param A:
     :return:
     """
