@@ -6,11 +6,11 @@ import householder as HH
 
 def extract_column(a, n, i):
     """
-
-    :param a:
-    :param n:
-    :param i:
-    :return:
+    Prend une matrice a et renvoie les éléments i à n de la colonne i
+    :param a: matrice
+    :param n: nombre de lignes de la matrice a
+    :param i: numéro de la colonne à extraire
+    :return: un vecteur vertical
     """
 
     return np.transpose([a[i:n, i]])
@@ -18,11 +18,11 @@ def extract_column(a, n, i):
 
 def extract_line(a, m, i):
     """
-
-    :param a:
-    :param m:
-    :param i:
-    :return:
+    Prend une matrice a et renvoie les éléments i+1 à m de la ligne i
+    :param a: matrice
+    :param m: nombre de colonnes de la matrice a
+    :param i: numéro de la ligne à extraire
+    :return: un vecteur vertical
     """
 
     return np.transpose([a[i, (i+1):m]])
@@ -30,9 +30,9 @@ def extract_line(a, m, i):
 
 def singlify_vector(v):
     """
-
-    :param v:
-    :return:
+    Prend un vecteur v et renvoie un vecteur de la même longueur contenant la norme de v comme premier élément, suivi de zéros
+    :param v: vecteur
+    :return: un vecteur
     """
 
     new_v = np.zeros(np.shape(v))
@@ -42,9 +42,9 @@ def singlify_vector(v):
 
 def construct_householder(x):
     """
-
-    :param x:
-    :return:
+    Prend un vecteur x et renvoie la matrice de Householder qui envoie x sur le vecteur contenant la norme de x suivie de zéros
+    :param x: vecteur
+    :return: matrice carrée de la taille du vecteur x
     """
 
     y = singlify_vector(x)
@@ -53,10 +53,10 @@ def construct_householder(x):
 
 def resize_mat(mat, n):
     """
-
-    :param mat:
-    :param n:
-    :return:
+    Prend une matrice mat et un entier n et renvoie une matrice de taille n dont les éléments sont ceux de mat, complétée avec la matrice identité
+    :param mat: matrice
+    :param n: entier
+    :return: matrice de taille n si n>taille(mat), mat sinon
     """
     n0 = np.shape(mat)[0]
     if n0 == n:
@@ -71,10 +71,10 @@ def resize_mat(mat, n):
 
 def resize_vec(vec, n):
     """
-
-    :param vec:
-    :param n:
-    :return:
+    Prend un vecteur vec et un entier n et renvoie un vecteur de taille n dont les derniers éléments sont ceux de vec, et les autres sont des zéros
+    :param vec: vecteur
+    :param n: entier
+    :return: vecteur de taille n si n>len(vec), vec sinon
     """
     n0 = np.shape(vec)[0]
     if n0 == n:
@@ -85,11 +85,23 @@ def resize_vec(vec, n):
     return new_vec
 
 
+def MatrixMul( mtx_a, mtx_b):
+    """
+    Prend deux matrices mtx_a et mtx_b et renvoie le produit des deux matrices
+    :param mtx_a: matrice
+    :param mtx_b: matrice
+    :return: matrice, erreur si les tailles des entrées ne correspondent pas
+    """
+    tpos_b = zip( *mtx_b)
+    rtn = [[ sum( ea*eb for ea,eb in zip(a,b)) for b in tpos_b] for a in mtx_a]
+    return rtn
+
+
 def decomp_bad(a):
     """
-
-    :param a:
-    :return:
+    Prend une matrice a et renvoie un triplet de matrices dont le produit vaut a et dont la matrice centrale est bidiagonale
+    :param a: matrice
+    :return: une matrice carrée, une matrice bidiagonale et une matrice carrée
     """
     n, m = np.shape(a)
     left = np.eye(n)
@@ -99,13 +111,13 @@ def decomp_bad(a):
 
     for i in range(0, min(n, m)):
         q1 = resize_mat(construct_householder(extract_column(bd, n, i)), n)
-        left = np.dot(left, q1)
-        bd = np.dot(q1, bd)
+        left = MatrixMul(left, q1)
+        bd = MatrixMul(q1, bd)
 
         if i <= m - 2:
             q2 = resize_mat(construct_householder(extract_line(bd, m, i)), m)
-            right = np.dot(q2, right)
-            bd = np.dot(bd, q2)
+            right = MatrixMul(q2, right)
+            bd = MatrixMul(bd, q2)
 
         np.testing.assert_array_almost_equal(np.dot(np.dot(left, bd), right), a)
 
@@ -114,9 +126,9 @@ def decomp_bad(a):
 
 def decomp_opti(a):
     """
-
-    :param a:
-    :return:
+    Même chose que decomp_bad mais avec des fonctions optimisées de multiplication de matrices
+    :param a: matrice
+    :return: une matrice carrée, une matrice bidiagonale et une matrice carrée
     """
     n, m = np.shape(a)
     left = np.eye(n)
