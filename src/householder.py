@@ -114,12 +114,15 @@ def prod_mat(A, B):
 
 
 def complexity_graph():
+
+
     """
     Dresse les graphes comparatifs des complexités des produits optimisés et non-optimisés pour des vecteurs et matrices
     :return: graphes des complexités
     """
 
     n = 50
+
     tab_x=range(1,n)
     tab_y_vec_opti=[]
     tab_y_vec= []
@@ -146,3 +149,57 @@ def complexity_graph():
         tab_y_mat.append(t4-t3)
         tab_y_mat_opti.append(t5-t4)
     return tab_x,tab_y_vec_opti,tab_y_vec,tab_y_mat_opti,tab_y_mat
+
+'''
+tab_x,tab_y_vec_opt,tab_y_vec,tab_y_mat_opti_tab_y_mat,tab_y_mat = complexity_graph()
+plt.figure(1)
+graph1 = plt.plot(tab_x,tab_y_vec,'b--',label='Non optimized')
+graph2 = plt.plot(tab_x,tab_y_vec_opt,'r',label='Optimized')
+plt.xlabel('n')
+plt.ylabel('complexity')
+plt.legend()
+
+
+plt.figure(2)
+graph3 = plt.plot(tab_x,tab_y_mat,'b--',label='Non optimized')
+graph4 = plt.plot(tab_x,tab_y_mat_opti_tab_y_mat,'r',label='Optimized')
+plt.xlabel('n')
+plt.ylabel('complexity')
+plt.legend()
+plt.show()
+'''
+'''
+n=300
+m=500
+
+def f(n,m,k):
+    a=float(n*m)
+    b=float(n+m+1)
+    return k*(n+m+1)/(n*m)
+tab_k = [i for i in range(n)]
+tab_y = [f(n,m,float(i)) for i in tab_k]
+tab_y1 = [1 for i in tab_k]
+graph = plt.plot(tab_k,tab_y,'b')
+graph_1 = plt.plot(tab_k,tab_y1,'-r',label="y=1")
+plt.xlabel('k')
+plt.ylabel('Compression au rank k')
+plt.legend()
+plt.show(graph)
+'''
+# x = np.array([[3],
+#               [4],
+#               [0]])
+#
+# x = np.array([3, 4, 0])
+# y = np.array([0, 0, 5])
+#
+# h = householder(x, y)
+#
+# v = np.array([[2, 1, 0],
+#               [0, 2, 1],
+#               [1, 0, 0]])
+#
+# print np.dot(v, h)
+# print householder_mul_mat_g(x, y, v)
+
+

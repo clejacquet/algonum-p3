@@ -2,9 +2,9 @@ import numpy as np
 from scipy import signal
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
-
 import compression as cp
-
+import skimage
+import mesure_erreur as me
 
 def fspecial_gauss(size, sigma):
     """Function to mimic the 'fspecial' gaussian MATLAB function
@@ -112,5 +112,10 @@ def SSIM_test(img_filename):
     plt.show()
 
 if __name__ == '__main__':
-    SSIM_test("res/p3_takeoff_base.png")
-    SSIM_test("res/p3_earth_base.png")
+    #SSIM_test("res/p3_takeoff_base.png")
+    #SSIM_test("res/p3_earth_base.png")
+    img_full = mpimg.imread("res/belle-de-nuit-bicolore.jpg")
+    tab_x = [10*i for i in range(15)]
+    tab_y = [skimage.measure.ssim(img_full,cp.compression(img_full,k)) for k in tab_x]
+    plt.plot(tab_x,tab_y,'-b')
+    plt.show()

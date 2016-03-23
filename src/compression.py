@@ -105,3 +105,4 @@ def compression_test(img_filename):
 if __name__ == '__main__':
     compression_test("res/p3_takeoff_base.png")
     compression_test("res/p3_earth_base.png")
+

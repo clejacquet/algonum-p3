@@ -138,8 +138,10 @@ def SSIM(A_orig, A_compres):
 
 
 if __name__ == '__main__':
+
     img_full = mpimg.imread("p3_takeoff_base.png")
     img_compres = cp.compression(img_full, 50)
     ssim = SSIM(img_full, img_compres)
     plt.imshow(ssim, interpolation = 'none')
     plt.show()
+
