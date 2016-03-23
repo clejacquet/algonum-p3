@@ -1,7 +1,7 @@
 import unittest as test
 import numpy as np
 import householder as hh
-
+import time
 
 X = np.array(([3],
               [4],
@@ -9,7 +9,9 @@ X = np.array(([3],
 Y = np.array(([0],
               [0],
               [5]))
-
+V = np.array([[7],
+              [2],
+              [0]])
 
 class TestHouseHolder(test.TestCase):
 
@@ -23,5 +25,9 @@ class TestHouseHolder(test.TestCase):
                                                  [-0.48, 0.36, 0.8],
                                                  [0.6, 0.8, 0]])
 
+
+
+        
+        
 if __name__ == '__main__':
     test.main()
