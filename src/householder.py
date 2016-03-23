@@ -101,8 +101,8 @@ plt.xlabel('n')
 plt.ylabel('complexity')
 plt.legend()
 plt.show()
-
 '''
+
 # x = np.array([[3],
 #               [4],
 #               [0]])
