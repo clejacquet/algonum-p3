@@ -82,6 +82,7 @@ if __name__ == '__main__':
     comp_test("p3_takeoff_base.png")
     comp_test("p3_earth_base.png")
 
+
 #
 
 # test = np.array([[[0.1, 0.1, 0.1], [0.1, 0.1, 0.1], [0.1, 0.1, 0.1]],

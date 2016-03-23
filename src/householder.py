@@ -90,7 +90,7 @@ def prod_mat(A,B):
                 C[i][j]=s
     return C
 def complexity_graph():
-    n = 50
+    n = 100
     tab_x=range(1,n)
     tab_y_vec_opti=[]
     tab_y_vec= []
@@ -135,7 +135,24 @@ plt.ylabel('complexity')
 plt.legend()
 plt.show()
 '''
+'''
+n=300
+m=500
 
+def f(n,m,k):
+    a=float(n*m)
+    b=float(n+m+1)
+    return k*(n+m+1)/(n*m)
+tab_k = [i for i in range(n)]
+tab_y = [f(n,m,float(i)) for i in tab_k]
+tab_y1 = [1 for i in tab_k]
+graph = plt.plot(tab_k,tab_y,'b')
+graph_1 = plt.plot(tab_k,tab_y1,'-r',label="y=1")
+plt.xlabel('k')
+plt.ylabel('Compression au rank k')
+plt.legend()
+plt.show(graph)
+'''
 # x = np.array([[3],
 #               [4],
 #               [0]])
