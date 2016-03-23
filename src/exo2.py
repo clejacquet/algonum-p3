@@ -1,5 +1,6 @@
 import numpy as np
 import householder as HH
+import givens as giv
 
 NMax = 1024
 
@@ -96,26 +97,28 @@ def decomp_opti(a):
 
     return left, bd, right
 
-A = np.array([[1,2,3,4],
-              [7,3,9,2],
-              [3,0,4,5]])
-print(A)
-print("Decomp_Bidiag:")
-print(np.round(decomp_opti(A)[1]), 3)
-print("\n")
+# A = np.array([[1,2,3,4],
+#               [7,3,9,2],
+#               [3,0,4,5]])
+# print(A)
+# print("Decomp_Bidiag:")
+# print(np.round(decomp_opti(A)[1]), 3)
+# print("\n")
 
 
-def SVD(A):
-    n = np.shape(A)[0]
-    m = np.shape(A)[1]
+def SVD(BD):
+    n = np.shape(BD)[0]
+    m = np.shape(BD)[1]
     U = np.eye(n)
     V = np.eye(m)
-    S = decomp_opti(A)[1]
-    BD = decomp_opti(A)[1]
 
-    for i in range(0,NMax):
-        Q1, R1 = np.linalg.qr(np.transpose(S))
-        Q2, R2 = np.linalg.qr(np.transpose(R1))
+    S = BD
+
+    for i in range(0, NMax):
+        # Q1, R1 = np.linalg.qr(np.transpose(S))
+        # Q2, R2 = np.linalg.qr(np.transpose(R1))
+        Q1, R1 = giv.qr(np.transpose(S))
+        Q2, R2 = giv.qr(np.transpose(R1))
         S = R2
         U = np.dot(U, Q2)
         V = np.dot(np.transpose(Q1), V)
@@ -130,7 +133,7 @@ def est_diag(A):
     m = np.shape(A)[1]
     for i in range(0,n):
         for j in range(0,m):
-            if (i!=j and A[i][j]!=0):
+            if i != j and A[i][j] != 0:
                 return False
     return True
 
