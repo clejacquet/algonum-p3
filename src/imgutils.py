@@ -2,8 +2,13 @@
 
 import numpy as np
 
-# decomposition_couleurs prend une matrice de triplets RGB et la décompose en 3 matrices avec les valeurs correspondant aux 3 couleurs
+
 def decomposition_couleurs(a):
+    """
+    Prend une matrice de triplets RGB et la décompose en 3 matrices avec les valeurs correspondant aux 3 couleurs
+    :param a:
+    :return:
+    """
     n = np.shape(a)[0]
     m = np.shape(a)[1]
     r = np.eye(n, m)
@@ -17,8 +22,16 @@ def decomposition_couleurs(a):
     return r, g, b
 
 
-# reconstruction_couleurs prend 3 matrices et construit une matrice de triplets (opération inverse de decomposition_couleurs)
+# reconstruction_couleurs
 def reconstruction_couleurs(r, g, b):
+    """
+    Prend 3 matrices et construit une matrice de triplets (opération inverse de decomposition_couleurs)
+    :param r:
+    :param g:
+    :param b:
+    :return:
+    """
+
     n = np.shape(r)[0]
     m = np.shape(r)[1]
     a = np.zeros((n, m, 3))

@@ -28,20 +28,38 @@ def is_bidiag(mat):
 
 
 class TestDecompBidiag(test.TestCase):
+    """
+
+    """
 
     def test_decomp_bidiag_bad(self):
+        """
+
+        :return:
+        """
         left, a, right = db.decomp_bad(A)
         self.assertTrue(is_bidiag(a))
         np.testing.assert_array_almost_equal(np.dot(np.dot(left, a), right), A)
 
     def test_decomp_bidiag_opti(self):
+        """
+
+        :return:
+        """
+
         left, a, right = db.decomp_opti(A)
         self.assertTrue(is_bidiag(a))
         np.testing.assert_array_almost_equal(np.dot(np.dot(left, a), right), A)
 
     def test_is_bidiag(self):
+        """
+
+        :return:
+        """
+
         self.assertTrue(is_bidiag(B))
         self.assertFalse(is_bidiag(C))
+
 
 if __name__ == '__main__':
     test.main()

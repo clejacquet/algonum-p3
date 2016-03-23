@@ -68,19 +68,17 @@ def SVD(BD):
 
     return U, S, V
 
-'''
-A = np.array([[1,2,0,0],
-              [0,3,9,0],
-              [0,0,1,5]])
 
+if __name__ == '__main__':
+    A = np.array([[1, 2, 0, 0],
+                  [0, 3, 9, 0],
+                  [0, 0, 1, 5]])
 
-print(SVD(A)[0])
-print("\n")
-print(SVD(A)[1])
-print("\n")
-print(SVD(A)[2])
-print("\n")
-print(np.dot(np.dot(SVD(A)[0],SVD(A)[1]),SVD(A)[2]))
-print("\n")
-print(decomp_opti(A)[1])
-'''
+    print(SVD(A)[0])
+    print("\n")
+    print(SVD(A)[1])
+    print("\n")
+    print(SVD(A)[2])
+    print("\n")
+    print(np.dot(np.dot(SVD(A)[0],SVD(A)[1]),SVD(A)[2]))
+    print("\n")

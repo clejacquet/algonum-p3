@@ -50,6 +50,11 @@ def ssim(img1, img2, cs_map=False):
 
 
 def decomposition_couleurs(a):
+    """
+
+    :param a:
+    :return:
+    """
     n = np.shape(a)[0]
     m = np.shape(a)[1]
     r = np.eye(n, m)
@@ -64,6 +69,13 @@ def decomposition_couleurs(a):
 
 
 def SSIM_color(img1, img2):
+    """
+
+    :param img1:
+    :param img2:
+    :return:
+    """
+
     img1_r, img1_g, img1_b = decomposition_couleurs(img1)
     img2_r, img2_g, img2_b = decomposition_couleurs(img2)
     carte0 = ssim(img1_r, img2_r)
@@ -73,6 +85,12 @@ def SSIM_color(img1, img2):
 
 
 def SSIM_test(img_filename):
+    """
+
+    :param img_filename:
+    :return:
+    """
+
     img_full = mpimg.imread(img_filename)
     img_comp5 = cp.compression(img_full, 5)
     img_comp50 = cp.compression(img_full, 50)
