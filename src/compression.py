@@ -3,16 +3,17 @@
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 import numpy as np
-import exo2 as ex2
+import decomp_bidiag as db
+import svd
 import imgutils as img
 
 
 
 
 # compression_couleur prend une matrice a correspondant à une seule couleur et un entier k et compresse cette couleur à l'ordre k
-def compression_couleur2(a, k):
-    l, bd, r = ex2.decomp_opti(a)
-    u, s, v = ex2.SVD(bd)
+def compression_couleur(a, k):
+    l, bd, r = db.decomp_opti(a)
+    u, s, v = svd.SVD(bd)
 
     n, m = np.shape(a)
     for i in range(k + 1, min(n, m)):
@@ -29,7 +30,7 @@ def compression_couleur2(a, k):
     return res
 
 
-def compression_couleur(a, k):
+def compression_couleur_opti(a, k):
     u, s, v = np.linalg.svd(a)
     n, m = np.shape(a)
     for i in range(k + 1, min(n, m)):
@@ -52,9 +53,9 @@ def compression_couleur(a, k):
 # compression effectue la compression à l'orde k de la matrice de triplets a
 def compression(a, k):
     r, g, b = img.decomposition_couleurs(a)
-    r = compression_couleur(r, k)
-    g = compression_couleur(g, k)
-    b = compression_couleur(b, k)
+    r = compression_couleur_opti(r, k)
+    g = compression_couleur_opti(g, k)
+    b = compression_couleur_opti(b, k)
     return img.reconstruction_couleurs(r, g, b)
 
 
@@ -78,9 +79,10 @@ def comp_test(img_filename):
     plt.suptitle("Compression de \"" + img_filename + "\"")
     plt.show()
 
+
 if __name__ == '__main__':
-    comp_test("p3_takeoff_base.png")
-    comp_test("p3_earth_base.png")
+    comp_test("res/p3_takeoff_base.png")
+    comp_test("res/p3_earth_base.png")
 
 #
 

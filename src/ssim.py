@@ -72,14 +72,6 @@ def SSIM_color(img1, img2):
     return carte0 + carte1 + carte2
 
 
-def SSIM_test2():
-    img_full = mpimg.imread("p3_takeoff_base.png")
-    img_compres = cp.compression(img_full, 50)
-    ssim = SSIM_color(img_full, img_compres)
-    plt.imshow(ssim, interpolation = 'none', cmap='gray')
-    plt.show()
-    return True
-
 def SSIM_test(img_filename):
     img_full = mpimg.imread(img_filename)
     img_comp5 = cp.compression(img_full, 5)
@@ -102,5 +94,5 @@ def SSIM_test(img_filename):
     plt.show()
 
 if __name__ == '__main__':
-    SSIM_test("p3_takeoff_base.png")
-    SSIM_test("p3_earth_base.png")
+    SSIM_test("res/p3_takeoff_base.png")
+    SSIM_test("res/p3_earth_base.png")
