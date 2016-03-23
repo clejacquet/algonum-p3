@@ -25,6 +25,12 @@ def G(q,p,A):
     return matrix(G) 
 
 def Q(A):
+    """
+
+    :param A:
+    :return:
+    """
+
     n, m = shape(A)
     q = eye(n)
     for i in range(1, min(n, m + 1)):
@@ -34,12 +40,18 @@ def Q(A):
 
 
 def qr(A):
+    """
+
+    :param A:
+    :return:
+    """
+
     q = Q(A)
     r = np.dot(q, A)
     return q, r
 
 
-def test():
+if __name__ == '__main__':
     A = np.array([[6, 0, 0, 0, 0, 0],
                   [18, 25, 0, 0, 0, 0],
                   [0, 14, 9, 0, 0, 0],
@@ -62,5 +74,4 @@ def test():
     print("tQ*R")
     print(np.round(np.transpose(Q)*R))
 
-test()
 
