@@ -6,8 +6,8 @@ import numpy as np
 def decomposition_couleurs(a):
     """
     Prend une matrice de triplets RGB et la décompose en 3 matrices avec les valeurs correspondant aux 3 couleurs
-    :param a:
-    :return:
+    :param a: matrice de triplets
+    :return: trois matrices contenant les éléments des triplets de a
     """
     n = np.shape(a)[0]
     m = np.shape(a)[1]
@@ -26,10 +26,10 @@ def decomposition_couleurs(a):
 def reconstruction_couleurs(r, g, b):
     """
     Prend 3 matrices et construit une matrice de triplets (opération inverse de decomposition_couleurs)
-    :param r:
-    :param g:
-    :param b:
-    :return:
+    :param r: matrice
+    :param g: matrice
+    :param b: matrice
+    :return: matrice de triplets dont les éléments sont les éléments des matrices en entrée
     """
 
     n = np.shape(r)[0]

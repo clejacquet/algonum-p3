@@ -7,10 +7,10 @@ NMax = 1024
 
 def modifSU(U,S):
     """
-
-    :param U:
-    :param S:
-    :return:
+    Prend deux matrices U et S, S étant diagonale et ordonne les éléments diagonaux de S dans l'ordre décroissant et modifie U de manière à ce que le produit de U par S ne soit pas changé
+    :param U: matrice
+    :param S: matrice diagonale
+    :return: matrice et matrice diagonale
     """
     n = S.shape[0]
     diagS = []
@@ -34,11 +34,11 @@ def modifSU(U,S):
 
 def resize_diag(a, n, m):
     """
-
-    :param a:
-    :param n:
-    :param m:
-    :return:
+    Prend un vecteur a et deux entiers n et m et renvoie une matrice de taille n*m ayant les éléments de a sur sa diagonale
+    :param a: vecteur
+    :param n: entier
+    :param m: entier
+    :return: matrice diagonale 
     """
 
     mat = np.empty((n, m))
@@ -49,9 +49,9 @@ def resize_diag(a, n, m):
 
 def SVD(BD):
     """
-
-    :param BD:
-    :return:
+    Prend une matrice bidiagonale BD et effectue la décomposition SVD de cette matrice
+    :param BD: matrice bidigonale
+    :return: un triplet de matrices dont le produit vaut BD et dont la matrice du milieu est diagonale
     """
 
     n = np.shape(BD)[0]

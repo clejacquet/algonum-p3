@@ -10,11 +10,11 @@ rayon_ssim = 8
 
 def PSNR_couleur(A_orig, A_compres, couleur):
     """
-
-    :param A_orig:
-    :param A_compres:
-    :param couleur:
-    :return:
+    Prend deux matrices A_orig et A_compres et un entier couleur et renvoie le PSNR correspondant à la couleur précisée (0:rouge, 1:vert, 2:bleu)
+    :param A_orig: matrice de triplets (image originale)
+    :param A_compres: matrice de triplets (image compressée)
+    :param couleur: entier valant 0, 1 ou 2
+    :return: réel
     """
 
     e = 0
@@ -28,10 +28,10 @@ def PSNR_couleur(A_orig, A_compres, couleur):
 
 def PSNR(A_orig, A_compres):
     """
-
-    :param A_orig:
-    :param A_compres:
-    :return:
+    Prend deux matrices A_orig et A_compres et un entier couleur et renvoie la somme des PSNR de chaque couleur
+    :param A_orig: matrice de triplets (image originale)
+    :param A_compres: matrice de triplets (image compressée)
+    :return: réel
     """
 
     return PSNR_couleur(A_orig, A_compres, 0) + PSNR_couleur(A_orig, A_compres, 1) + PSNR_couleur(A_orig, A_compres, 2)
@@ -39,12 +39,12 @@ def PSNR(A_orig, A_compres):
 
 def moy_ssim(A, i, j, couleur):
     """
-
-    :param A:
-    :param i:
-    :param j:
-    :param couleur:
-    :return:
+    Prend une matrice A, deux entiers i et j et un entier couleur et renvoie la moyenne des valeurs de A autour de l'élément A[i,j] pour la couleur précisée (0:rouge, 1:vert, 2:bleu)
+    :param A: matrice de 
+    :param i: entier
+    :param j: entier
+    :param couleur: entier valant 0, 1 ou 2
+    :return: réel
     """
 
     moy = 0
@@ -60,12 +60,12 @@ def moy_ssim(A, i, j, couleur):
 
 def sigma_ssim(A, i, j, couleur):
     """
-
-    :param A:
-    :param i:
-    :param j:
-    :param couleur:
-    :return:
+    Prend une matrice A, deux entiers i et j et un entier couleur et renvoie la variance des valeurs de A autour de l'élément A[i,j] pour la couleur précisée (0:rouge, 1:vert, 2:bleu)
+    :param A: matrice de triplets
+    :param i: entier
+    :param j: entier
+    :param couleur: entier valant 0, 1 ou 2
+    :return: réel
     """
 
     sigma = 0
@@ -81,12 +81,12 @@ def sigma_ssim(A, i, j, couleur):
 
 def covar_ssim(A, B, i, j, couleur):
     """
-
-    :param A:
-    :param B:
-    :param i:
-    :param j:
-    :param couleur:
+    Prend deux matrices A et B, deux entiers i et j et un entier couleur et renvoie la covariance des valeurs de A et de B autour du point (i,j) pour la couleur précisée (0:rouge, 1:vert, 2:bleu)
+    :param A: matrice de triplets
+    :param B: matrice de triplets
+    :param i: entier
+    :param j: entier
+    :param couleur: entier valant 0, 1 ou 2
     :return:
     """
 
@@ -103,11 +103,11 @@ def covar_ssim(A, B, i, j, couleur):
 
 def SSIM_couleur(A_orig, A_compres, couleur):
     """
-
-    :param A_orig:
-    :param A_compres:
-    :param couleur:
-    :return:
+    Prend deux matrices A_orig et A_compres et un entier couleur et renvoie une matrice correspondant à la carte des différences entre les deux matrices pour la couleur précisée (0:rouge, 1:vert, 2:bleu)
+    :param A_orig: matrice de triplets (image originale)
+    :param A_compres: matrice de triplets (image compressée)
+    :param couleur: entier valant 0, 1 ou 2
+    :return: matrice
     """
 
     n, m, p = np.shape(A_compres)
@@ -125,10 +125,10 @@ def SSIM_couleur(A_orig, A_compres, couleur):
 
 def SSIM(A_orig, A_compres):
     """
-
-    :param A_orig:
-    :param A_compres:
-    :return:
+    Prend deux matrices A_orig et A_compres et renvoie une matrice correspondant à la carte des différences entre les deux matrices
+    :param A_orig: matrice de triplets (image originale)
+    :param A_compres: matrice de triplets (image compressée)
+    :return: matrice
     """
 
     carte0 = SSIM_couleur(A_orig, A_compres, 0)
