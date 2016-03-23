@@ -6,10 +6,10 @@ import time
 
 def householder(vec_x, vec_y):
     """
-    Calcule la matrice de householder
-    :param vec_x:
-    :param vec_y:
-    :return:
+    Prend vec_x et vec_y de même taille et renvoie la matrice de Householder mat_h telle que mat_h*vec_x = vec_y
+    :param vec_x: vecteur de taille n
+    :param vec_y: vecteur de taille n
+    :return: matrice de Householder de taille n*n nécesseaire à la transformation de vec_x en vec_y
     """
 
     n = len(vec_x)
@@ -24,11 +24,11 @@ def householder(vec_x, vec_y):
 
 def householder_mul_vect_d(x, y, v):
     """
-
-    :param x:
-    :param y:
-    :param v:
-    :return:
+    Prend x, y et v de même taille et renvoie la transformation de Householder de v par la matrice de Householder transformant x en y
+    :param x: vecteur
+    :param y: vecteur
+    :param v: vecteur
+    :return: transformée de Householder optimisée de v par la matrice de Householder transformant x en y
     """
 
     d = x - y
@@ -37,11 +37,12 @@ def householder_mul_vect_d(x, y, v):
 
 def householder_mul_mat_d(x, y, mat):
     """
-
-    :param x:
-    :param y:
-    :param mat:
-    :return:
+    Prend x et y vecteurs et mat une matrice en paramètres et renvoie la transformée de Householder à droite 
+    de mat par la matrice de Householder transformant x en y
+    :param x: vecteur
+    :param y: vecteur
+    :param mat: matrice
+    :return: transformée de Householder optimisée de m par la matrice de Householder transformant x en y
     """
 
     n, m = np.shape(mat)
@@ -54,11 +55,12 @@ def householder_mul_mat_d(x, y, mat):
 
 def householder_mul_mat_g(x, y, mat):
     """
-
-    :param x:
-    :param y:
-    :param mat:
-    :return:
+    Prend x et y vecteurs et mat une matrice en paramètres et renvoie la transformée de Householder à gauche 
+    de mat par la matrice de Householder transformant x en y
+    :param x: vecteur
+    :param y: vecteur
+    :param mat: matrice
+    :return: produit optimisé de la matice de Householder et mat
     """
 
     return np.transpose(householder_mul_mat_d(x, y, np.transpose(mat)))
@@ -66,9 +68,9 @@ def householder_mul_mat_g(x, y, mat):
 
 def matrix_gen(n):
     """
-
-    :param n:
-    :return:
+    Génère une matrice m de taille n*n aléatoirement
+    :param n: entier
+    :return: matrice aléatoire de taille n
     """
 
     m = np.zeros((n,n))
@@ -80,9 +82,9 @@ def matrix_gen(n):
 
 def vec_gen(n):
     """
-
-    :param n:
-    :return:
+    Génère un vecteur v de taille n aléatoirement
+    :param n: entier
+    :return: vecteur aléatoire de taille n
     """
 
     v = np.zeros(n)
@@ -93,10 +95,10 @@ def vec_gen(n):
 
 def prod_mat(A, B):
     """
-
-    :param A:
-    :param B:
-    :return:
+    Réalise le produit d'une matrice A par une matrice B (np.dot étant trop puissant, permet de comparer le produit matriciel au produit optimisé.
+    :param A: matrice
+    :param B: matrice
+    :return: A*B
     """
 
     n = len(A)
@@ -113,8 +115,8 @@ def prod_mat(A, B):
 
 def complexity_graph():
     """
-
-    :return:
+    Dresse les graphes comparatifs des complexités des produits optimisés et non-optimisés pour des vecteurs et matrices
+    :return: graphes des complexités
     """
 
     n = 50
