@@ -105,7 +105,32 @@ print(np.round(decomp_opti(A)[1]), 3)
 print("\n")
 
 
+
+def modifSU(U,S):
+    l = np.shape(S)[0]
+    c = np.shape(S)[1]
+
+    for i in range(0,min(l,c)):
+        if S[i,i]<0:
+            S[i,i] = 0 - S[i,i]
+            U[:,i] = 0 - U[:,i]
+
+    diagS = np.empty([min(l,c)])
+    for i in range(0,min(l,c)):
+        diagS[i] = S[i,i]
+    triS = np.empty([min(l,c)])
+    triS = sorted(diagS)
+    for i in range(0,min(l,c)):
+        diagS[i] = float(diagS[i])/float(triS[i])
+    for i in range(0,min(l,c)):
+        S[i,i] = triS[i]
+        U[:,i] = U[:,i]*float(diagS[i])
+
+    return(U,S)
+
+
 def SVD(A):
+    '''
     n = np.shape(A)[0]
     m = np.shape(A)[1]
     U = np.eye(n)
@@ -120,9 +145,30 @@ def SVD(A):
         U = np.dot(U, Q2)
         V = np.dot(np.transpose(Q1), V)
 
-        np.testing.assert_array_almost_equal(np.dot(U, np.dot(S, V)), BD)
+        np.testing.assert_array_almost_equal(np.dot(np.dot(U,S), V), BD)
+    '''
+    U,S,V = np.linalg.svd(A)
+    S=np.diag(S)
+    U,S=modifSU(U,S)
+    #np.testing.assert_array_almost_equal(np.dot(np.dot(U,S), V), BD)
+    return U,S,V
 
-    return U, S, V
+SVD(A)
+print(SVD(A)[0])
+print("\n") 
+print(SVD(A)[1])
+print("\n")
+print(SVD(A)[2])
+print("\n")
+print(np.dot(np.dot(SVD(A)[0],SVD(A)[1]),SVD(A)[2]))
+print("\n")
+print(decomp_opti(A)[1])
+
+
+    
+
+
+
 
 
 def est_diag(A):
