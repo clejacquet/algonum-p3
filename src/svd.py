@@ -6,6 +6,12 @@ NMax = 1024
 
 
 def modifSU(U,S):
+    """
+
+    :param U:
+    :param S:
+    :return:
+    """
     n = S.shape[0]
     diagS = []
     triS = []
@@ -25,22 +31,16 @@ def modifSU(U,S):
 
     return U, S
 
-    '''
-    diagS = np.empty([min(l,c)])
-    for i in range(0,min(l,c)):
-        diagS[i] = S[i,i]
-    triS = np.empty([min(l,c)])
-    triS = sorted(diagS)
-    for i in range(0,min(l,c)):
-        diagS[i] = float(diagS[i])/float(triS[i])
-    for i in range(0,min(l,c)):
-        S[i,i] = triS[i]
-        U[:,i] = U[:,i]*float(diagS[i])
-
-    return(U,S)
-    '''
 
 def resize_diag(a, n, m):
+    """
+
+    :param a:
+    :param n:
+    :param m:
+    :return:
+    """
+
     mat = np.empty((n, m))
     for i in range(0, min(n, m)):
         mat[i, i] = a[i]
@@ -48,6 +48,12 @@ def resize_diag(a, n, m):
 
 
 def SVD(BD):
+    """
+
+    :param BD:
+    :return:
+    """
+
     n = np.shape(BD)[0]
     m = np.shape(BD)[1]
     U = np.eye(n)
