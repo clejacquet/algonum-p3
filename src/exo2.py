@@ -1,20 +1,21 @@
 import numpy as np
 import householder as HH
+import givens as giv
 
 NMax = 1024
 
 
 def extract_column(a, n, i):
-    return a[i:n, i]
+    return np.transpose([a[i:n, i]])
 
 
 def extract_line(a, m, i):
-    return a[i, (i+1):m]
+    return np.transpose([a[i, (i+1):m]])
 
 
 def singlify_vector(v):
     new_v = np.zeros(np.shape(v))
-    new_v[0] = np.linalg.norm(v)
+    new_v[0, 0] = np.linalg.norm(v)
     return new_v
 
 
@@ -36,12 +37,12 @@ def resize_mat(mat, n):
 
 
 def resize_vec(vec, n):
-    n0 = len(vec)
+    n0 = np.shape(vec)[0]
     if n0 == n:
         return vec
-    new_vec = np.zeros(n)
+    new_vec = np.zeros((n, 1))
     for i in range(0, n0):
-        new_vec[(n - n0) + i] = vec[i]
+        new_vec[(n - n0) + i, 0] = vec[i, 0]
     return new_vec
 
 
@@ -105,17 +106,19 @@ def decomp_opti(a):
 # print("\n")
 
 
-def SVD(A):
-    n = np.shape(A)[0]
-    m = np.shape(A)[1]
+def SVD(BD):
+    n = np.shape(BD)[0]
+    m = np.shape(BD)[1]
     U = np.eye(n)
     V = np.eye(m)
-    S = decomp_opti(A)[1]
-    BD = decomp_opti(A)[1]
 
-    for i in range(0,NMax):
-        Q1, R1 = np.linalg.qr(np.transpose(S))
-        Q2, R2 = np.linalg.qr(np.transpose(R1))
+    S = BD
+
+    for i in range(0, NMax):
+        # Q1, R1 = np.linalg.qr(np.transpose(S))
+        # Q2, R2 = np.linalg.qr(np.transpose(R1))
+        Q1, R1 = giv.qr(np.transpose(S))
+        Q2, R2 = giv.qr(np.transpose(R1))
         S = R2
         U = np.dot(U, Q2)
         V = np.dot(np.transpose(Q1), V)
